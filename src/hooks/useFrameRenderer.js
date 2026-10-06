@@ -96,33 +96,28 @@ export function useFrameRenderer() {
   const preloadFrames = useCallback(() => {
     return new Promise((resolve) => {
       const images = [];
-      let loaded = 0;
-      const total = TOTAL_FRAMES + 1; // 64 frames + center
 
-      const onLoad = () => {
-        loaded++;
-        if (loaded >= total) {
-          framesRef.current = images;
-          loadedRef.current = true;
-          resolve();
-        }
+      // 1. Load center frame first and resolve promise immediately when done
+      const centerImg = new Image();
+      centerImg.onload = () => {
+        centerFrameRef.current = centerImg;
+        loadedRef.current = true;
+        resolve();
       };
+      centerImg.onerror = () => {
+        loadedRef.current = true;
+        resolve();
+      };
+      centerImg.src = `${import.meta.env.BASE_URL}frames/center.webp`;
 
-      // Load directional frames
+      // 2. Start loading all other frames in the background
       for (let i = 0; i < TOTAL_FRAMES; i++) {
         const img = new Image();
-        img.onload = onLoad;
-        img.onerror = onLoad; // Don't block on errors
-        img.src = `/frames/frame-${String(i).padStart(3, '0')}.webp`;
+        // The browser will load these asynchronously
+        img.src = `${import.meta.env.BASE_URL}frames/frame-${String(i).padStart(3, '0')}.webp`;
         images.push(img);
       }
-
-      // Load center frame
-      const centerImg = new Image();
-      centerImg.onload = onLoad;
-      centerImg.onerror = onLoad;
-      centerImg.src = '/frames/center.webp';
-      centerFrameRef.current = centerImg;
+      framesRef.current = images;
     });
   }, []);
 
@@ -148,8 +143,8 @@ export function useFrameRenderer() {
     state.canvasWidth = vw * dpr;
     state.canvasHeight = vh * dpr;
 
-    // Frame dimensions (from the first loaded image)
-    const img = framesRef.current[0];
+    // Frame dimensions (from the already loaded center image)
+    const img = centerFrameRef.current;
     state.frameWidth = img.naturalWidth;
     state.frameHeight = img.naturalHeight;
 

@@ -80,7 +80,7 @@ function HeroPage() {
 
         {/* Action Buttons */}
         <div className="hero__actions">
-          <a href="/resume/Hemant_Chaudhary_CV.pdf" download="Hemant_Chaudhary_CV.pdf" className="btn btn--transparent" data-cursor-hover>
+          <a href={`${import.meta.env.BASE_URL}resume/Hemant_Chaudhary_CV.pdf`} download="Hemant_Chaudhary_CV.pdf" className="btn btn--transparent" data-cursor-hover>
             <span className="btn__text">Resume</span>
             <PenUnderline />
           </a>

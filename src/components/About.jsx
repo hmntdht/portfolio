@@ -70,7 +70,7 @@ const educationData = [
     degree: 'B.E. in Computer Engineering',
     university: 'Pokhara University',
     description: 'Graduated with focus on full-stack web development, database systems, and software engineering principles.',
-    image: '/images/nast.jpg',
+    image: `${import.meta.env.BASE_URL}images/nast.jpg`,
   },
   {
     year: '2020 - 2022',
@@ -78,7 +78,7 @@ const educationData = [
     degree: '+2 Science, Higher Secondary Education',
     university: null,
     description: 'Completed higher secondary education in science stream with focus on physics, chemistry, and mathematics.',
-    image: '/images/nast.jpg',
+    image: `${import.meta.env.BASE_URL}images/nast.jpg`,
   },
   {
     year: '2007 - 2020',
@@ -86,7 +86,7 @@ const educationData = [
     degree: 'School Education (SEE)',
     university: null,
     description: 'Completed secondary education and developed foundational academic knowledge.',
-    image: '/images/jk.jpg',
+    image: `${import.meta.env.BASE_URL}images/jk.jpg`,
   },
 ];
 
